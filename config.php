@@ -21,33 +21,33 @@ $GLOBALS['template'] = '';
 
 // environment
 switch($_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']){
-        
+
 	case "domain.de/index.php":
-        $GLOBALS['error_reporting'] = true;
+		$GLOBALS['error_reporting'] = true;
 		$GLOBALS['host'] = '';
-        $GLOBALS['user'] = '';
-        $GLOBALS['pass'] = '';
-        $GLOBALS['database'] = '';
-        $GLOBALS['tld'] = 'https://domain.de/';
-        $GLOBALS['url_dataprotection'] = $GLOBALS['tld'].'#';
-        $GLOBALS['url_imprint'] = $GLOBALS['tld'].'#';
-        $GLOBALS['url_contact'] = $GLOBALS['tld'].'#';
+		$GLOBALS['user'] = '';
+		$GLOBALS['pass'] = '';
+		$GLOBALS['database'] = '';
+		$GLOBALS['tld'] = 'https://domain.de/';
+		$GLOBALS['url_dataprotection'] = $GLOBALS['tld'].'#';
+		$GLOBALS['url_imprint'] = $GLOBALS['tld'].'#';
+		$GLOBALS['url_contact'] = $GLOBALS['tld'].'#';
 		$GLOBALS['template_path'] = 'assets/templates/default/';
 		break;
-                    
+
 	default: // localhost
-        $GLOBALS['error_reporting'] = true;
+		$GLOBALS['error_reporting'] = true;
 		$GLOBALS['host'] = 'localhost';
-        $GLOBALS['user'] = 'root';
-        $GLOBALS['pass'] = 'empty';
-        $GLOBALS['database'] = 'app';
-        $GLOBALS['tld'] = 'localhost/app';
-        $GLOBALS['url_dataprotection'] = 'http://'.$GLOBALS['tld'].'/#';
-        $GLOBALS['url_imprint'] = 'http://'.$GLOBALS['tld'].'/#';
-        $GLOBALS['url_contact'] = 'http://'.$GLOBALS['tld'].'/#';
-		$GLOBALS['template_path'] = 'assets/templates/default/index.php';
+		$GLOBALS['user'] = 'root';
+		$GLOBALS['pass'] = 'empty';
+		$GLOBALS['database'] = 'app';
+		$GLOBALS['tld'] = 'http://localhost/app';
+		$GLOBALS['url_dataprotection'] = $GLOBALS['tld'].'#';
+		$GLOBALS['url_imprint'] = $GLOBALS['tld'].'#';
+		$GLOBALS['url_contact'] = $GLOBALS['tld'].'#';
+		$GLOBALS['template_path'] = 'assets/templates/default/';
 		break;
-		
+
 }
 
 
