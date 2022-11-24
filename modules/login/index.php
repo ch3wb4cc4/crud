@@ -49,9 +49,6 @@ class login{
                 ";
                 $result = $GLOBALS['app']->read($query);
                 
-                $GLOBALS['app']->_var_dump($query).'<br />';
-                $GLOBALS['app']->_var_dump($result);
-                
                 if(!empty($result)){
                     $_SESSION['login_user'] = $result[0]['id'];
 					$GLOBALS['output'] .= 'login success<br />';
