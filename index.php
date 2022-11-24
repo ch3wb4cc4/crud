@@ -20,7 +20,7 @@ jumpmarks:
 
 // config ===================================================================================
 include('config.php');
-
+// config ===================================================================================
 
 
 
@@ -252,31 +252,6 @@ class app{
                 }
             }else{
                 $GLOBALS['console'] .= '<br />security_check error: read error<br />';
-            }
-        }
-        
-        
-        
-        
-        public function permission($permission = 0){
-            $query = "
-                SELECT 
-                permission 
-                FROM ".$GLOBALS['permissions']." 
-                WHERE user = '".(int)$_SESSION['login_user']."' 
-                AND permission = '".(int)$permission."' 
-                LIMIT 1
-                ;
-            ";
-            
-            $result = $this->read($query);
-            
-            if(!empty($result)){
-                // $GLOBALS['console'] .= '<br />user has permission '.$result[0]['permission'].'<br />';
-                return true;
-            }else{
-                // $GLOBALS['console'] .= '<br />user does not have permission '.$permission.'<br />';
-                return false;
             }
         }
         
@@ -688,11 +663,6 @@ IT x AG
                     
                 }else{
                     switch($_REQUEST['task']){
-                    
-                        case 'logout':
-                            $this->logout();
-                            break;
-                            
                         default:
                             $GLOBALS['output'] .= '404 <br />';
                             // $this->security_log( $GLOBALS['url_current'], '404');
@@ -707,10 +677,14 @@ IT x AG
             
             
             
+            // $GLOBALS['output'] .= $this->header();
             
-            $GLOBALS['output'] = $this->header().$GLOBALS['output'];
-            
-            $GLOBALS['output'] .= $this->footer();
+            // $GLOBALS['output'] .= $this->footer();
+			
+			
+            if($GLOBALS['error_reporting'] == true){
+               $GLOBALS['output'] .= '<br /><hr /><br />'.$GLOBALS['console'];
+            }
             
             $this->output_html();
             
@@ -721,9 +695,6 @@ IT x AG
             
             // $GLOBALS['console'] .= $GLOBALS['url'].'?module='.$GLOBALS['module'].'&task=confirm&token=';
             
-            if($GLOBALS['error_reporting'] == true){
-                echo '<br /><hr /><br />'.$GLOBALS['console'];
-            }
             
             
             session_write_close();
