@@ -13,41 +13,27 @@ $GLOBALS['security_check_limit'] = 32;
 $GLOBALS['security_check'] = false;
 $GLOBALS['stringtable'] = array();
 $GLOBALS['module'] = '';
-$GLOBALS['tmp'] = '';
 $GLOBALS['url'] = '';
 $GLOBALS['url_current'] = '';
-$GLOBALS['template'] = '';
 
 
 // environment
 switch($_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']){
-
-	case "domain.de/index.php":
-		$GLOBALS['error_reporting'] = true;
-		$GLOBALS['host'] = '';
-		$GLOBALS['user'] = '';
-		$GLOBALS['pass'] = '';
-		$GLOBALS['database'] = '';
-		$GLOBALS['tld'] = 'https://domain.de/';
-		$GLOBALS['url_dataprotection'] = $GLOBALS['tld'].'#';
-		$GLOBALS['url_imprint'] = $GLOBALS['tld'].'#';
-		$GLOBALS['url_contact'] = $GLOBALS['tld'].'#';
-		$GLOBALS['template_path'] = 'assets/templates/default/';
-		break;
-
+                    
 	default: // localhost
-		$GLOBALS['error_reporting'] = true;
-		$GLOBALS['host'] = 'localhost';
-		$GLOBALS['user'] = 'root';
-		$GLOBALS['pass'] = 'empty';
-		$GLOBALS['database'] = 'app';
-		$GLOBALS['tld'] = 'http://localhost/app';
-		$GLOBALS['url_dataprotection'] = $GLOBALS['tld'].'#';
-		$GLOBALS['url_imprint'] = $GLOBALS['tld'].'#';
-		$GLOBALS['url_contact'] = $GLOBALS['tld'].'#';
+        $GLOBALS['error_reporting'] = true;
+		$GLOBALS['host'] = '';
+        $GLOBALS['user'] = '';
+        $GLOBALS['pass'] = '';
+        $GLOBALS['database'] = '';
+        $GLOBALS['url_root'] = '';
+        $GLOBALS['url_dataprotection'] = $GLOBALS['url_root'].'#';
+        $GLOBALS['url_imprint'] = $GLOBALS['url_root'].'#';
+        $GLOBALS['url_contact'] = $GLOBALS['url_root'].'#';
+        $GLOBALS['system_email'] = 'email@domain.de';
 		$GLOBALS['template_path'] = 'assets/templates/default/';
 		break;
-
+		
 }
 
 
@@ -65,6 +51,8 @@ if($GLOBALS['error_reporting'] == false){
 
 // tables
 $GLOBALS['t_security_log'] = '000_security_log';
+$GLOBALS['t_users'] = '000_users';
+$GLOBALS['t_permissions'] = '000_permissions';
 
 
 
