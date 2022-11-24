@@ -19,19 +19,20 @@ $GLOBALS['url_current'] = '';
 
 // environment
 switch($_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']){
-                    
+
 	default: // localhost
-        $GLOBALS['error_reporting'] = true;
+		$GLOBALS['error_reporting'] = true;
 		$GLOBALS['host'] = '';
-        $GLOBALS['user'] = '';
-        $GLOBALS['pass'] = '';
-        $GLOBALS['database'] = '';
-        $GLOBALS['url_root'] = '';
-        $GLOBALS['url_dataprotection'] = $GLOBALS['url_root'].'#';
-        $GLOBALS['url_imprint'] = $GLOBALS['url_root'].'#';
-        $GLOBALS['url_contact'] = $GLOBALS['url_root'].'#';
-        $GLOBALS['system_email'] = 'email@domain.de';
-		$GLOBALS['template_path'] = 'assets/templates/default/';
+		$GLOBALS['user'] = '';
+		$GLOBALS['pass'] = '';
+		$GLOBALS['database'] = '';
+		$GLOBALS['url_root'] = '';
+		$GLOBALS['url_dataprotection'] = $GLOBALS['url_root'].'#';
+		$GLOBALS['url_imprint'] = $GLOBALS['url_root'].'#';
+		$GLOBALS['url_contact'] = $GLOBALS['url_root'].'#';
+		$GLOBALS['system_email'] = 'email@domain.de';
+		// $GLOBALS['template_path'] = 'assets/templates/default/';
+		$GLOBALS['template_path'] = 'assets/templates/startbootstrap-resume-gh-pages/';
 		break;
 		
 }
