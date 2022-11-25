@@ -656,18 +656,20 @@ IT x AG
 					$GLOBALS['output'] .= '404 <br />';
 					$this->security_log( $GLOBALS['url_current'], '404');
 					
-				}elseif( (isset($_REQUEST['module'])) && (file_exists('modules/'.$_REQUEST['module'].'/index.php')) ){
-                
-                    $GLOBALS['module'] = $_REQUEST['module'];
-                    include('modules/'.$GLOBALS['module'].'/index.php');
-                    
-                }else{
-                    switch($_REQUEST['task']){
-                        default:
-                            $GLOBALS['output'] .= '404 <br />';
-                            // $this->security_log( $GLOBALS['url_current'], '404');
-                    }
-                }
+				}
+				
+				
+				switch($_REQUEST['task']){
+					
+					case 'original':
+						$GLOBALS['template_path'] = 'assets/templates/startbootstrap-resume-gh-pages-original/';
+						break;
+						
+					default:
+						include('modules/articles/index.php');
+						include('modules/login/index.php');
+						
+				}
                 
                 
             }else{

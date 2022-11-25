@@ -89,8 +89,7 @@ class login{
                 $to = $result[0]['email'];
                 $subject = 'Authentication';
                 $message = 'Login: 
-'.$GLOBALS['url_root'].'?module=login&task=login&email='.urlencode($result[0]['email']).'&token='.$new_token.'
-';
+'.$GLOBALS['url_root'].'?module=login&task=login&email='.urlencode($result[0]['email']).'&token='.$new_token.'#login';
                     $headers =  'MIME-Version: 1.0' . "\r\n" .
                                 'Content-type: text/plain; charset=utf-8'."\r\n" .
                                 'From: '.$GLOBALS['system_email']."\r\n" .
@@ -114,7 +113,7 @@ class login{
             }
             
             
-            $GLOBALS['output'] .= '<br />Es wurde ein Link an die eingegebene Adresse gesendet, sofern diese korrekt war.<br />';
+            $GLOBALS['output'] .= 'Es wurde ein Link an die eingegebene Adresse gesendet, sofern diese korrekt war.<br />';
         }
 		
 		
@@ -139,15 +138,35 @@ class login{
         
         
         
+        public function login_header() {
+            return "
+                <br /><hr class=\"m-0\" /><br />
+				<h2 class=\"mb-5\"  id=\"login\">Login</h2>
+            ";
+        }
+        
+		
         
         public function login_form() {
             return "
-                <br />
-                        <form method=\"POST\">
+                        <form method=\"POST\" action=\"".$GLOBALS['url_root']."#login\">
                             <input type=\"hidden\" name=\"module\" value=\"login\">
                             <input type=\"hidden\" name=\"task\" value=\"two_factor\">
                             <input type=\"text\" name=\"email\" placeholder=\"E-Mail-Adresse\" value=\"".( isset($_SESSION['email']) ? $_SESSION['email'] : '')."\" />
                             <input type=\"submit\" value=\"OK\">
+                        </form>
+                    <br />
+            ";
+        }
+        
+		
+        
+        public function logout_form() {
+            return "
+                        <form method=\"POST\">
+                            <input type=\"hidden\" name=\"module\" value=\"login\">
+                            <input type=\"hidden\" name=\"task\" value=\"logout\">
+                            <input type=\"submit\" value=\"Logout\">
                         </form>
                     <br />
             ";
@@ -162,26 +181,32 @@ class login{
 	
 		public function execute(){
 			
-			switch($_REQUEST['task']){
+			$GLOBALS['output'] .= $this->login_header();
 			
-				case 'two_factor':
-					$this->two_factor();
-					break;
+			if( (isset($_REQUEST['module'] )) && ($_REQUEST['module'] == 'login') ){
+				switch($_REQUEST['task']){
+				
+					case 'two_factor':
+						$this->two_factor();
+						break;
+				
+					case 'login':
+						$this->login();
+						break;
+				
+					case 'logout':
+						$this->logout();
+						break;
+						
+				}
+			}
 			
-				case 'login':
-					$this->login();
-					break;
 			
-				case 'logout':
-					$this->logout();
-					break;
-					
-				default:
-					if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) ){
-						$GLOBALS['output'] .= 'logged in';
-					}else{
-						$GLOBALS['output'] .= $this->login_form();
-					}
+			//$GLOBALS['output'] .= $GLOBALS['module'].$_REQUEST['task'];
+			if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) ){
+				$GLOBALS['output'] .= $this->logout_form();
+			}else{
+				$GLOBALS['output'] .= $this->login_form();
 			}
 			
 		}
