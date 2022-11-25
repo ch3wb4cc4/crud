@@ -43,16 +43,17 @@
                         <a href="https://github.com/ch3wb4cc4/crud" target="_blank">github</a>
 						<a href="https://github.com/ch3wb4cc4/crud" target="_blank"><i class="fab fa-github"></i></a>
                     </div>
-                </div>
-				
-            </section>
-			
-            <hr class="m-0" />
 
+					<?php echo $GLOBALS['output']; ?>
+					
+				</div>
+			</section>
+			
+			
+			<?php /*
             <!-- Experience-->
             <section class="resume-section" id="experience">
                 <div class="resume-section-content">
-					<?php echo $GLOBALS['output']; ?> <br /><br />
                     <h2 class="mb-5">Experience</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
@@ -131,7 +132,7 @@
                     </ul>
                 </div>
             </section>
-
+			*/ ?>
 
         </div>
         <!-- Bootstrap core JS-->
