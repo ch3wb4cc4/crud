@@ -6,6 +6,22 @@ class module{
 	
 	// model start ===========================================================================
 	
+		public function read(){
+			$query = "
+				SELECT 
+				a.published, 
+				a.author, 
+				a.headline, 
+				a.teaser, 
+				a.content 
+				FROM ".$GLOBALS['t_articles']." a 
+				LIMIT 3
+				;
+			";
+			$result = $GLOBALS['app']->read($query);
+			return $result;
+		}
+		
 	// model stop ===========================================================================
 	
 	
@@ -16,7 +32,8 @@ class module{
         public function stringtable() {
             $GLOBALS['stringtable']['de']['module'] = 'module';
         }
-		        
+		
+		
 		public function list_articles() {
             return '
 					
@@ -66,11 +83,10 @@ class module{
 	// controller start =========================================================================
 	
 		public function execute(){
-			$GLOBALS['output'] .= $this->list_articles();
 		}
 
 		public function __construct() {
-			$GLOBALS['console'] .= '<br />module_login initialized<br />';
+			$GLOBALS['console'] .= '<br />module_articles initialized<br />';
 		}
 
     // controller stop ==========================================================================
@@ -80,8 +96,8 @@ class module{
 
 
 
-$GLOBALS['module'] = new module();
-$GLOBALS['module']->execute();
+$GLOBALS['articles'] = new module();
+$GLOBALS['articles']->execute();
 
 
 
