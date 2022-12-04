@@ -6,16 +6,18 @@ class module{
 	
 	// model start ===========================================================================
 	
-		public function read(){
+		public function read($id = 0){
 			$query = "
 				SELECT 
+				a.id, 
 				a.published, 
 				a.author, 
 				a.headline, 
 				a.teaser, 
 				a.content 
-				FROM ".$GLOBALS['t_articles']." a 
-				LIMIT 3
+				FROM ".$GLOBALS['t_articles']." a ".
+				($id > 0 ? "WHERE a.id = '".(int)$id."' " : "").
+				"LIMIT 3
 				;
 			";
 			$result = $GLOBALS['app']->read($query);
@@ -34,45 +36,37 @@ class module{
         }
 		
 		
-		public function list_articles() {
-            return '
-					
+		
+		public function list_articles($array_2D) {
+			$result = '
 				<br /><hr class="m-0" /><br />
-					 
 				<h2 class="mb-5"  id="articles">Articles</h2>
-				<div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-					<div class="flex-grow-1">
-						<h3 class="mb-0">Senior Web Developer</h3>
-						<div class="subheading mb-3">Intelitec Solutions</div>
-						<p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
+			';
+        	foreach ($array_2D as $row) {
+        		$result .= '
+					<div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+						<div class="flex-grow-1">
+							<h3 class="mb-0">'.$row['headline'].'</h3>
+							<div class="subheading mb-3">'.$row['author'].'</div>
+								<p>'.
+									(count($array_2D) == 1 ? $row['content'] : $row['teaser'].' &nbsp; <a href="?id='.$row['id'].'">>>></a>').
+								'</p>
+							</div>
+						<div class="flex-shrink-0"><span class="text-primary">'.$row['published'].'</span></div>
 					</div>
-					<div class="flex-shrink-0"><span class="text-primary">March 2013 - Present</span></div>
-				</div>
-				<div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-					<div class="flex-grow-1">
-						<h3 class="mb-0">Web Developer</h3>
-						<div class="subheading mb-3">Intelitec Solutions</div>
-						<p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-					</div>
-					<div class="flex-shrink-0"><span class="text-primary">December 2011 - March 2013</span></div>
-				</div>
-				<div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-					<div class="flex-grow-1">
-						<h3 class="mb-0">Junior Web Designer</h3>
-						<div class="subheading mb-3">Shout! Media Productions</div>
-						<p>Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.</p>
-					</div>
-					<div class="flex-shrink-0"><span class="text-primary">July 2010 - December 2011</span></div>
-				</div>
-				<div class="d-flex flex-column flex-md-row justify-content-between">
-					<div class="flex-grow-1">
-						<h3 class="mb-0">Web Design Intern</h3>
-						<div class="subheading mb-3">Shout! Media Productions</div>
-						<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
-					</div>
-					<div class="flex-shrink-0"><span class="text-primary">September 2008 - June 2010</span></div>
-				</div>
-            ';
+				';
+        	}
+        	return $result;
+        }
+		
+		
+		
+		public function edit_articles($array_2D) {
+			$result = '
+				<br /><hr class="m-0" /><br />
+				<h2 class="mb-5"  id="articles">Edit articles</h2>
+			';
+        	return $result;
         }
 		
 	// view stop ============================================================================
@@ -82,8 +76,7 @@ class module{
 	
 	// controller start =========================================================================
 	
-		public function execute(){
-		}
+		// public function execute(){}
 
 		public function __construct() {
 			$GLOBALS['console'] .= '<br />module_articles initialized<br />';
@@ -97,7 +90,7 @@ class module{
 
 
 $GLOBALS['articles'] = new module();
-$GLOBALS['articles']->execute();
+// $GLOBALS['articles']->execute();
 
 
 

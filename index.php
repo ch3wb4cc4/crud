@@ -636,8 +636,7 @@ IT x AG
             
             if( (isset($GLOBALS['security_check'])) && ($GLOBALS['security_check'] == true) ){
             
-                $GLOBALS['url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$this->sanitize($_SERVER['PHP_SELF']);
-                $GLOBALS['url_current'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$this->sanitize($_SERVER['REQUEST_URI']);
+                $GLOBALS['url_current'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$this->sanitize($_SERVER['REQUEST_URI']); // log 404 or attacks
                 
                 
                 $_REQUEST = $this->sanitize($_REQUEST);
@@ -666,9 +665,22 @@ IT x AG
 						break;
 						
 					default:
-						include('modules/articles/index.php');
-						include('modules/login/index.php');
 						
+						include('modules/login/index.php');
+					
+						if(!isset($_REQUEST['id'])){ $_REQUEST['id'] = 0; }
+						include('modules/articles/index.php');
+						$GLOBALS['articles2display'] = $GLOBALS['articles']->read($_REQUEST['id']);
+						$GLOBALS['output'] .= $GLOBALS['articles']->list_articles($GLOBALS['articles2display']);
+						// $GLOBALS['output'] .= $this->table2table_table($GLOBALS['articles']->read());
+						
+						if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) && ($GLOBALS['login']->permission(1)) ){
+							$GLOBALS['output'] .= $GLOBALS['articles']->edit_articles($GLOBALS['articles2display']);
+							
+							$GLOBALS['output'] .= $this->table2form( $GLOBALS['articles2display'], $except_cols = array(), $hidden_cols = array('id'), $breakpoints = array() ).'<br />';
+						}
+						
+						$GLOBALS['login']->form();
 				}
                 
                 
@@ -692,13 +704,6 @@ IT x AG
             
             
             
-            
-            // $GLOBALS['console'] .= '<br />';
-            
-            // $GLOBALS['console'] .= $GLOBALS['url'].'?module='.$GLOBALS['module'].'&task=confirm&token=';
-            
-            
-            
             session_write_close();
         }
         
@@ -706,13 +711,7 @@ IT x AG
         
         
         public function __construct() {
-            // $GLOBALS['console'] .= '<br />app initialized<br />';
-            
-            /*
-            ob_start();
-            var_dump($_REQUEST);
-            $GLOBALS['console'] .= '<pre>'.ob_get_clean().'</pre><br />';
-            */
+            $GLOBALS['console'] .= '<br />app initialized<br />';
         }
         
     // controller stop ==========================================================================

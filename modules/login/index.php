@@ -24,7 +24,7 @@ class login{
                 ;
             ";
             
-            $result = $this->read($query);
+            $result = $GLOBALS['app']->read($query);
             
             if(!empty($result)){
                 // $GLOBALS['console'] .= '<br />user has permission '.$result[0]['permission'].'<br />';
@@ -51,11 +51,11 @@ class login{
                 
                 if(!empty($result)){
                     $_SESSION['login_user'] = $result[0]['id'];
-					$GLOBALS['output'] .= 'login success<br />';
+					// $GLOBALS['output'] .= 'login success<br />';
                     $GLOBALS['app']->security_log( 'login: '.((isset($_REQUEST['email'])) ? 'email = '.$_REQUEST['email'].'; ' : '').((isset($_REQUEST['token'])) ? 'token = '.$_REQUEST['token'].'; ' : ''), 'login');
                 }else{
                     $_SESSION['login_user'] = '';
-					$GLOBALS['output'] .= 'login fail<br />';
+					// $GLOBALS['output'] .= 'login fail<br />';
                     $GLOBALS['app']->security_log( 'login: '.((isset($_REQUEST['email'])) ? 'email = '.$_REQUEST['email'].'; ' : '').((isset($_REQUEST['token'])) ? 'token = '.$_REQUEST['token'].'; ' : ''), 'error');
                 }
             }
@@ -171,6 +171,17 @@ class login{
                     <br />
             ";
         }
+        
+		
+        
+        public function form() {
+			$GLOBALS['output'] .= $this->login_header();
+			if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) ){
+				$GLOBALS['output'] .= $this->logout_form();
+			}else{
+				$GLOBALS['output'] .= $this->login_form();
+			}
+        }
 		
 	// view stop ============================================================================
 	
@@ -180,9 +191,6 @@ class login{
 	// controller start =========================================================================
 	
 		public function execute(){
-			
-			$GLOBALS['output'] .= $this->login_header();
-			
 			if( (isset($_REQUEST['module'] )) && ($_REQUEST['module'] == 'login') ){
 				switch($_REQUEST['task']){
 				
@@ -200,15 +208,6 @@ class login{
 						
 				}
 			}
-			
-			
-			//$GLOBALS['output'] .= $GLOBALS['module'].$_REQUEST['task'];
-			if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) ){
-				$GLOBALS['output'] .= $this->logout_form();
-			}else{
-				$GLOBALS['output'] .= $this->login_form();
-			}
-			
 		}
 
 		public function __construct() {
