@@ -134,11 +134,12 @@ class app{
             
         	foreach ($array_2D as $rowIndex=>$row){
             
+				_var_dump('What?');
                 $row = $this->sanitize($row);
                 $new = false;
         	    
         	    
-                if( (isset($where_1)) && ($where_1 != '') && (array_key_exists($where_1, $row)) ){    
+                if( (isset($where_1)) && ($where_1 != '') && (array_key_exists($where_1, $row)) ){
                     $query = "
                         SELECT 
                         * 
@@ -191,19 +192,14 @@ class app{
                 }
                 
                 $query .= ";";
-                
+                _var_dump($query);
                 
                 if( (isset($where_1)) && ($where_1 != '') ){
-                    if($this->write($query)){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }else{
-                    return false;
+					$this->write($query);
                 }
+				
             }
-            
+            return true;
         }
         
         
@@ -299,8 +295,10 @@ class app{
             	<style type="text/css">
             	    .table2form_row{ width: 100%; display: block; overflow: hidden; margin-bottom: 16px; }
             	    .table2form_separator{ width: 100%; display: block; float: left; overflow: hidden; height: 1px; margin: 32px 0; border-top: 1px solid; }
-            	    .table2form_col{ width: 24%; display: inline-block; float: left; margin: 0 1% 16px 0; }
-            	    .table2form_col input{ width: 90%; padding: 8px 4%; }
+            	    .table2form_col{ width: 96%; display: inline-block; float: left; margin: 0 1% 16px 0; }
+            	    .table2form_col label{ display: block; width: auto; }
+            	    .table2form_col input{ width: 90%; padding: 8px 1%; }
+            	    .table2form_col textarea{ width: 90%; padding: 8px 1%; resize: both; }
             	    
             	    @media screen and (max-width: 555px) {
             	        .table2form_col{ width: 96%; }
@@ -331,10 +329,16 @@ class app{
                     		        // (DateTime::createFromFormat('Y-m-d H:i:s', $cell)
                     			    $result .= "
                     			        <div class=\"table2form_col\">
-                        			        <label>
-                        			            ".$this->language($columnName,$language)." <br />
-                        			            <input".((DateTime::createFromFormat('Y-m-d', $cell) !== false) ? " type=\"date\"" : " type=\"text\"" )." name=\"input_rows[$i][$columnName]\" value=\"$cell\" />
-                        			        </label>
+                        			        <label>".$this->language($columnName,$language)." <br />";
+											
+											if(DateTime::createFromFormat('Y-m-d', $cell)){
+												 $result .= "<input type=\"date\" name=\"input_rows[$i][$columnName]\" value=\"$cell\" />";
+											}else{
+												$result .= "<textarea name=\"input_rows[$i][$columnName]\">$cell</textarea>";
+											}
+                        			        
+									$result .= "
+											</label>
                     			        </div>
                     			    ";
                 		        }else{
@@ -667,18 +671,8 @@ IT x AG
 					default:
 						
 						include('modules/login/index.php');
-					
-						if(!isset($_REQUEST['id'])){ $_REQUEST['id'] = 0; }
-						include('modules/articles/index.php');
-						$GLOBALS['articles2display'] = $GLOBALS['articles']->read($_REQUEST['id']);
-						$GLOBALS['output'] .= $GLOBALS['articles']->list_articles($GLOBALS['articles2display']);
-						// $GLOBALS['output'] .= $this->table2table_table($GLOBALS['articles']->read());
 						
-						if( (isset($_SESSION['login_user'])) && ($_SESSION['login_user'] > 0) && ($GLOBALS['login']->permission(1)) ){
-							$GLOBALS['output'] .= $GLOBALS['articles']->edit_articles($GLOBALS['articles2display']);
-							
-							$GLOBALS['output'] .= $this->table2form( $GLOBALS['articles2display'], $except_cols = array(), $hidden_cols = array('id'), $breakpoints = array() ).'<br />';
-						}
+						include('modules/articles/index.php');
 						
 						$GLOBALS['login']->form();
 				}
