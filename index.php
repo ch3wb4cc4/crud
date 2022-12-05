@@ -309,7 +309,7 @@ class app{
                 	<div class="table2form">';
                 	
                 	$result .= '
-                	<input type="hidden" name="task" value="save" />
+                	<input type="hidden" name="task" value="update" />
                 	';
                 	
                 	$i = 1;
@@ -331,11 +331,7 @@ class app{
                     			        <div class=\"table2form_col\">
                         			        <label>".$this->language($columnName,$language)." <br />";
 											
-											if(DateTime::createFromFormat('Y-m-d', $cell)){
-												 $result .= "<input type=\"date\" name=\"input_rows[$i][$columnName]\" value=\"$cell\" />";
-											}else{
-												$result .= "<textarea name=\"input_rows[$i][$columnName]\">$cell</textarea>";
-											}
+											$result .= "<textarea name=\"input_rows[$i][$columnName]\">$cell</textarea>";
                         			        
 									$result .= "
 											</label>
@@ -352,7 +348,7 @@ class app{
                 		$i++;
                 	}
                 	
-                	$result .= '<input type="submit" value="'.$this->language('save',$language).'"></div>';
+                	$result .= '<input type="submit" value="'.$this->language('update',$language).'"></div>';
                 	
             	$result .= '</form>';
                 
