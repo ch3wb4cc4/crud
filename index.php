@@ -94,9 +94,7 @@ class app{
         
         // sanitizes an array down to the depth of 5 and deletes everything below
         public function sanitize($input, $depth_counter = 1){
-            
         	$originale = array('\'', '"', '\\', ';', '<', '>', '[', ']', '{', '}', '|', '$', '%' );
-        	// $ersatz = array('', '', '', '', '', '', '', '', '', '', '', '', '', 'oder', 'Dollar', 'ist gleich', 'Prozent');
         	$ersatz = array('', '', ' Backslash ', ' Semicolon ', ' kleiner als ', ' groesser als ', ' eckige Klammer auf ', ' eckige Klammer zu ', ' geschweifte Klammer auf ', ' geschweifte Klammer zu ', ' OR ', ' Dollar ', ' Prozent ');
             
             if(is_array($input)){
@@ -104,8 +102,7 @@ class app{
             	if($depth_counter <= 5){
                 	foreach( $input as $key => $element ) {
                 	    if(is_array($element)){
-                	        $depth_counter++;
-                	        $output[$key] = $this->sanitize($element, $depth_counter);
+                	        $output[$key] = $this->sanitize($element, ($depth_counter + 1));
                 	    }else{
                 	        $element = str_replace($originale, $ersatz, $element);
                     		$output[$key] = $this->escape_string($element);
@@ -117,7 +114,6 @@ class app{
                 $output = $this->escape_string($element);
             }
             
-            // $GLOBALS['console'] .= 'input sanitized <br />';
         	return $output;
         }
 		
@@ -131,10 +127,9 @@ class app{
         
         
         public function bulk_update($db_table, $array_2D, $where_1, $where_2 = '', $where_3 = '', $except_cols = array()){
-            
+			
         	foreach ($array_2D as $rowIndex=>$row){
-            
-				_var_dump('What?');
+				
                 $row = $this->sanitize($row);
                 $new = false;
         	    
@@ -638,9 +633,7 @@ IT x AG
             
                 $GLOBALS['url_current'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$this->sanitize($_SERVER['REQUEST_URI']); // log 404 or attacks
                 
-                
                 $_REQUEST = $this->sanitize($_REQUEST);
-                
                 
                 $this->stringtable();
                 
